@@ -83,6 +83,7 @@ module.exports = function (grunt) {
           switch (regexName) {
             case "commentSimpleQuote":
             case "HtmlFilterSimpleQuote":
+            case "HtmlFilterSimpleQuoteInsideAttribute":
             case "JavascriptServiceSimpleQuote":
             case "JavascriptServiceInstantSimpleQuote":
             case "JavascriptFilterSimpleQuote":
@@ -91,6 +92,7 @@ module.exports = function (grunt) {
               break;
             case "commentDoubleQuote":
             case "HtmlFilterDoubleQuote":
+	          case "HtmlFilterDoubleQuoteInsideAttribute":
             case "JavascriptServiceDoubleQuote":
             case "JavascriptServiceInstantDoubleQuote":
             case "JavascriptFilterDoubleQuote":
@@ -131,6 +133,8 @@ module.exports = function (grunt) {
       commentDoubleQuote: '\\/\\*\\s*i18nextract\\s*\\*\\/"((?:\\\\.|[^"\\\\])*)"',
       HtmlFilterSimpleQuote: escapeRegExp(interpolation.startDelimiter) + '\\s*\'((?:\\\\.|[^\'\\\\])*)\'\\s*\\|\\s*translate(:.*?)?\\s*' + escapeRegExp(interpolation.endDelimiter),
       HtmlFilterDoubleQuote: escapeRegExp(interpolation.startDelimiter) + '\\s*"((?:\\\\.|[^"\\\\\])*)"\\s*\\|\\s*translate(:.*?)?\\s*' + escapeRegExp(interpolation.endDelimiter),
+      HtmlFilterSimpleQuoteInsideAttribute: '"\\s*\'((?:\\\\.|[^\'\\\\])*)\'\\s*\\|\\s*translate(:.*?)?\\s*"',
+      HtmlFilterDoubleQuoteInsideAttribute: '\\s*"((?:\\\\.|[^"\\\\\])*)"\\s*\\|\\s*translate(:.*?)?\\s*',
       HtmlDirective: '<[^>]*translate[^{>]*>([^<]*)<\/[^>]*>',
       HtmlDirectiveStandalone: 'translate="((?:\\\\.|[^"\\\\])*)"',
       HtmlDirectivePluralLast: 'translate="((?:\\\\.|[^"\\\\])*)".*angular-plural-extract="((?:\\\\.|[^"\\\\])*)"',
@@ -223,7 +227,9 @@ module.exports = function (grunt) {
         switch (i) {
           // Case filter HTML simple/double quoted
           case "HtmlFilterSimpleQuote":
+          case "HtmlFilterSimpleQuoteInsideAttribute":
           case "HtmlFilterDoubleQuote":
+          case "HtmlFilterDoubleQuoteInsideAttribute":
           case "HtmlDirective":
           case "HtmlDirectivePluralLast":
           case "HtmlDirectivePluralFirst":
